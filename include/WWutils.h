@@ -18,6 +18,7 @@
 // Auxiliary
 template <typename T> std::ostream& operator<< (std::ostream& out, const std::vector<T>& v);
 template <typename T> std::vector<TH1D*> operator>>(const std::vector<T>& data, std::vector<TH1D*> hists);
+template <typename T> std::vector<TH1D*> operator>>(const std::vector<std::pair<T,T> >& data, std::vector<TH1D*> hists);
 
 
 // Classification

@@ -34,6 +34,21 @@ template <typename T> std::vector<TH1D*> operator>>(const std::vector<T>& data, 
     
 }
 
+template <typename T> std::vector<TH1D*> operator>>(const std::vector<std::pair<T,T> >& data, std::vector<TH1D*> hists) 
+{
+
+  if (hists.size() != data.size()) {
+    cout << "Hitograms and data have different sizes, can't fill it." << endl;
+  } else {
+    for (size_t i = 0; i < hists.size(); i++) {
+      hists[i]->Fill(data[i].first, data[i].second);
+      //      cout << data[i] << endl;
+    }
+  }
+  return hists;
+    
+}
+
 int getEventType(vector <int> bestHyp, vector<int> lep_pdgId)
 {
   int retval;
@@ -166,8 +181,10 @@ vector<TH1D*> readTree(const char* fileName) {
   TTreeReaderValue<float > met_pt(reader, "met_pt");
   TTreeReaderValue<float > met_phi(reader, "met_phi");
 
+  TTreeReaderValue<float > evt_scale1fb(reader, "evt_scale1fb");
+  
   // To store the results
-  vector<double> data;
+  vector<pair<double,double>> data;
   vector<double> mt_vec;
   
   while (reader.Next()) {
@@ -184,15 +201,18 @@ vector<TH1D*> readTree(const char* fileName) {
       data.clear();
       mt_vec.clear();
 
+      // default values;
       data.resize(2);
-      data[0] = 0.;
-      data[1] = 0.;
-      
+      data[0] = make_pair(0.,1.);
+      data[0] = make_pair(0.,1.);
+
+      //      cout << "-- new event--" << endl;
       mt_vec = calculateMtVariables(lep_p4->at(bestHyp[0]), lep_p4->at(bestHyp[1]), *met_pt, *met_phi);
       //      cout << "mt2 " << mt_vec[0] << endl;
            
-      data[0] = (lep_p4->at(bestHyp[0]).Pt());
-      data[1] = (mt_vec[0]);
+      data[0].first = (lep_p4->at(bestHyp[0]).Pt()); data[0].second = *evt_scale1fb;
+      data[1].first = (mt_vec[0])                  ; data[1].second = *evt_scale1fb;
+      
       data >> hists;
       
     }

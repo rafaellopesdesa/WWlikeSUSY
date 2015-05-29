@@ -1,5 +1,5 @@
 CC = g++
-INCLUDE = -I./ -I./include/ -I./mt2/include/oxbridgekinetics-1.0/ -I./dataMCplotMaker/include/ -I./inih/include/
+INCLUDE = -I./ -I./include/ -I./mt2/include/oxbridgekinetics-1.0/ -I./inih/include/
 CFLAGS = -Wall -g $(shell root-config --cflags) $(INCLUDE)
 LINKER = g++
 
@@ -13,7 +13,7 @@ LNKDIR = links
 SOURCES = $(wildcard $(SRCDIR)/*.cxx) $(patsubst $(LNKDIR)/%_linkdef.h,$(SRCDIR)/%_dict.cxx,$(wildcard $(LNKDIR)/*.h))
 OBJECTS = $(patsubst %,$(OBJDIR)/%.o,$(basename $(notdir $(SOURCES)))) 
 
-LIBS = -L./mt2/lib/ -loxbridgekinetics-1.0.1 -L./dataMCplotMaker/lib -ldataMCplotMaker -L./inih/lib -linih
+LIBS = -L./mt2/lib/ -loxbridgekinetics-1.0.1 -L./inih/lib -linih
 EXE = analysis.exe mttester.exe
 
 .PRECIOUS: $(OBJDIR)/%.o $(SRCDIR)/%_dict.cxx
