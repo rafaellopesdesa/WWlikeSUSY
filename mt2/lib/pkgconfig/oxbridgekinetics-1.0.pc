@@ -1,0 +1,11 @@
+prefix=/Users/rclsa/WW_2015/mt2
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: OxbridgeKinetics
+Description: Example C++ library.
+Version: 0.8
+URL: @PACKAGE_URL@
+Libs: -L${libdir} -loxbridgekinetics-1.0
+Cflags: -I${includedir}/oxbridgekinetics-1.0 -I${libdir}/oxbridgekinetics-1.0/include
